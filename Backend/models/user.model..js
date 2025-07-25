@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    joined_on:{
+        type: Date,
+        default: Date.now,
+    }
     socketId: {
         type: String,
     }
