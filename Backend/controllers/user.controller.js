@@ -40,7 +40,7 @@ module.exports.loginUser = async (req , res) => {
         return res.status(401).json({message: "Bro Invalid credentials"})
     }
 
-    const isMatch = await user.comaparePassword(password,user.password);
+    const isMatch = await user.comparePassword(password);  // ✅ Correct
     if (!isMatch) {
         return res.status(401).json({message: "Bro Invalid credentials"});
     }

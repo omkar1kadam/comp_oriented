@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     },
     devices: {
         type: [String],
-        default: 0,
+        default: [],
     },
     token_balance: {
         type: Number,
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     joined_on:{
         type: Date,
         default: Date.now,
-    }
+    },
     socketId: {
         type: String,
     }
