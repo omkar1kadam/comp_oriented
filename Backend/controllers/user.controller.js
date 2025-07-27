@@ -1,5 +1,5 @@
 const userModel = require('../models/user.model');
-
+const SensorModel = require('../models/sensor.model');
 const userService = require('../services/user.service');
 const { validationResult } = require('express-validator');
 const blackListTokenModel = require('../models/blacklistToken.model');
@@ -52,9 +52,25 @@ module.exports.loginUser = async (req , res) => {
     res.status(200).json({token , user});
 }
 
-module.exports.getUserProfile = async (req,res,next) => {
-    res.status(200).json(req.user);
-}
+module.exports.getUserProfile = async (req, res, next) => {
+  try {
+    const user = req.user; // comes from auth middleware
+
+    // find all sensors where ownerId matches current user
+    const sensors = await SensorModel.find({ ownerId: user._id }).select('deviceId location registered_on lastActive');
+
+    res.status(200).json({
+      name: `${user.fullName?.firstName || ''} ${user.fullName?.lastName || ''}`,
+      email: user.email,
+      devices: sensors // full device list!
+    });
+
+  } catch (error) {
+    console.error("Bro error in fetching profile with devices:", error);
+    res.status(500).json({ message: "Bro, something went wrong on the server 💥" });
+  }
+};
+
 
 module.exports.logOutUser = async (req,res,next) => {
     res.clearCookie('token');
