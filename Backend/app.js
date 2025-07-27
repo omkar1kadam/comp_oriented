@@ -14,7 +14,11 @@ const dataRoutes = require('./routes/data.routes');
 
 connectToDB();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // your React frontend
+  credentials: true               // allow cookies from frontend
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
