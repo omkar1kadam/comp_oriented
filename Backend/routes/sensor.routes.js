@@ -4,10 +4,11 @@ const Sensor = require('../models/sensor.model');
 const authMiddleware = require('../middlewares/auth.middleware');
 const sensorModel = require('../models/sensor.model');
 const userModel = require('../models/user.model');
+const Reading = require('../models/reading.model');
+const mongoose = require('mongoose');  // 🔥 Don't forget this if not globally imported
 
-// Register new sensor
+// ✅ Register new sensor
 router.post('/register', authMiddleware.authUser, async (req, res) => {
-  console.log("Route hit");
   try {
     const { deviceId, location } = req.body;
 
@@ -28,7 +29,7 @@ router.post('/register', authMiddleware.authUser, async (req, res) => {
 
     await newSensor.save();
 
-    // 🔥 THIS LINE LINKS SENSOR TO USER
+    // 🔗 Link this sensor to the user
     await userModel.findByIdAndUpdate(
       req.user._id,
       { $push: { devices: newSensor._id } },
@@ -42,15 +43,11 @@ router.post('/register', authMiddleware.authUser, async (req, res) => {
   }
 });
 
-
+// ✅ Fetch all sensors for a user
 router.get('/all_sensors', authMiddleware.authUser, async (req, res) => {
   try {
-    const user = req.user;
-    console.log("🔐 Logged-in user ID:", user._id);
-
-    // 🧠 Populate email from the User collection
     const sensors = await sensorModel
-      .find({ ownerId: user._id })
+      .find({ ownerId: req.user._id })
       .populate('ownerId', 'email');
 
     res.json({ sensors });
@@ -60,8 +57,46 @@ router.get('/all_sensors', authMiddleware.authUser, async (req, res) => {
   }
 });
 
+// ✅ Get sensor by ID
+router.get('/:id', authMiddleware.authUser, async (req, res) => {
+  try {
+    const sensor = await Sensor.findById(req.params.id).populate('ownerId', 'email');
+    if (!sensor) return res.status(404).json({ message: "Sensor not found bro 😢" });
 
+    res.json(sensor);
+  } catch (err) {
+    console.error("❌ Error fetching sensor by ID:", err);
+    res.status(500).json({ message: "Internal server error", error: err.message || err });
+  }
+});
 
+// ✅ Get readings (from centralized Reading model)
+router.get('/:id/readings', authMiddleware.authUser, async (req, res) => {
+  try {
+    const readings = await Reading.find({ sensorId: req.params.id }).sort({ timestamp: -1 });
+    res.json({ readings });
+  } catch (err) {
+    console.error("❌ Error fetching sensor readings:", err);
+    res.status(500).json({ message: "Bro failed to get readings", error: err.message || err });
+  }
+});
 
+// ✅ Get raw readings from per-device collection (frontend uses this)
+router.get('/:deviceId/data', async (req, res) => {
+  try {
+    const collectionName = `sensor_data_${req.params.deviceId}`;
+    const SensorData = mongoose.connection.collection(collectionName);
+
+    const readings = await SensorData
+      .find({})
+      .sort({ timestamp: -1 })  // ✅ This is the fix that solved your UI issue
+      .toArray();
+
+    res.json({ readings });
+  } catch (err) {
+    console.error('Error fetching sensor data:', err);
+    res.status(500).json({ error: 'Failed to fetch sensor data' });
+  }
+});
 
 module.exports = router;
