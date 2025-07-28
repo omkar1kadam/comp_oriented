@@ -248,7 +248,7 @@ function LoginForm() {
           </ul>
         </nav>
         <div className="auth-buttons">
-          <a href="/signup" className="btn">Sign Up</a>
+          <a href="/register" className="btn">Sign Up</a>
         </div>
       </header>
 
@@ -283,7 +283,7 @@ function LoginForm() {
             </div>
 
             <div className="form-options">
-              <a href="#">Forgot Password?</a>
+              <a href="/">Forgot Password?</a>
             </div>
 
             <button type="submit" className="btn-signin">Sign In</button>

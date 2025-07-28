@@ -5,12 +5,13 @@ import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import Profile from './components/Profile';
 import SensorDetail from './pages/SensorDetail';
+import PlanteraHome from './components/PlanteraHome';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<div>Home Page</div>} />
+        <Route path="/" element={<PlanteraHome />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/profile" element={<Profile />} />
