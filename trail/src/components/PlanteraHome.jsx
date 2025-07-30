@@ -7,6 +7,7 @@ import {
   FaInstagram,
   FaShoppingCart
 } from 'react-icons/fa';
+import Navbar from './Navbar';
 
 const PlanteraHome = () => {
   return (
@@ -309,23 +310,7 @@ const PlanteraHome = () => {
           }
         }
       `}</style>
-      {/* Header */}
-      <header className="header">
-        <Link to="/" className="logo"><span>P</span>lantera</Link>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/buy_kit">Buy Kits</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-            <li><Link to="/predict">Predict</Link></li>
-          </ul>
-        </nav>
-        <div className="auth-buttons">
-          <Link to="/login" className="btn">Login</Link>
-          <Link to="/signup" className="btn">Sign up</Link>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="hero">
@@ -391,10 +376,10 @@ const PlanteraHome = () => {
               Plantera empowers green-tech innovation through real-time environmental tracking and tokenized incentives.
             </p>
             <div className="social-icons">
-              <a href="#"><FaYoutube /></a>
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaLinkedinIn /></a>
-              <a href="#"><FaInstagram /></a>
+              <a href="#0"><FaYoutube /></a>
+              <a href="#0"><FaFacebookF /></a>
+              <a href="#0"><FaLinkedinIn /></a>
+              <a href="#0"><FaInstagram /></a>
             </div>
           </div>
 

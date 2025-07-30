@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm';
 import Profile from './components/Profile';
 import SensorDetail from './pages/SensorDetail';
 import PlanteraHome from './components/PlanteraHome';
+// import Navbar from './components/Navbar';
 
 function App() {
   return (
