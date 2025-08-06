@@ -24,6 +24,7 @@ router.post('/submit', async (req, res) => {
     await sensor.save();
 
     res.status(201).json({ message: "Data stored successfully bro" });
+    console.log("Data stored successfully bro", newData);
   } catch (err) {
     console.error("Error storing data:", err);
     res.status(500).json({ message: "Internal error bro", error: err.message });
