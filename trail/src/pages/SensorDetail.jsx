@@ -9,7 +9,7 @@ const SensorDetail = () => {
   useEffect(() => {
     const fetchReadings = async () => {
       try {
-        const res = await fetch(`http://localhost:2402/sensors/${deviceId}/data`);
+        const res = await fetch(`https://comp-oriented.onrender.com/sensors/${deviceId}/data`);
         const data = await res.json();
         console.log("📦 Full response from backend:", data);
         setReadings(data.readings);

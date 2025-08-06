@@ -9,7 +9,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:2402/users/profile", { withCredentials: true })
+      .get("https://comp-oriented.onrender.com/users/profile      const res = await fetch(`http://localhost:2402/sensors/${deviceId}/data`);", { withCredentials: true })
       .then((res) => {
         setUserData(res.data);
         setLoading(false);
