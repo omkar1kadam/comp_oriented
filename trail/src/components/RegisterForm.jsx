@@ -20,7 +20,7 @@ const RegisterForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:2402/users/register",
+        "https://comp-oriented.onrender.com/users/register",
         {
           email,
           password,
