@@ -15,7 +15,7 @@ const dataRoutes = require('./routes/data.routes');
 connectToDB();
 
 app.use(cors({
-  origin: 'https://plantera-omkar.vercel.app/', // your React frontend
+  origin: 'https://plantera-omkar.vercel.app', // your React frontend
   credentials: true               // allow cookies from frontend
 }));
 
