@@ -2,7 +2,7 @@ const userModel = require('../models/user.model');
 const SensorModel = require('../models/sensor.model');
 const userService = require('../services/user.service');
 const { validationResult } = require('express-validator');
-const blackListTokenModel = require('../models/blacklistToken.model');
+const blackListTokenModel = require('../models/blacklistToken.model.js');
 
 module.exports.registerUser = async (req,res) => {
     const errors = validationResult(req);
