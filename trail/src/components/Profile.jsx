@@ -8,17 +8,20 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("https://comp-oriented.onrender.com/users/profile      const res = await fetch(`http://localhost:2402/sensors/${deviceId}/data`);", { withCredentials: true })
-      .then((res) => {
-        setUserData(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Bro error fetching profile:", err);
-        setLoading(false);
-      });
-  }, []);
+  axios
+    .get("https://comp-oriented.onrender.com/users/profile", {
+      withCredentials: true,
+    })
+    .then((res) => {
+      setUserData(res.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Bro error fetching profile:", err);
+      setLoading(false);
+    });
+}, []);
+
 
   if (loading) return <h2 style={{ padding: "2rem" }}>Loading your profile, bro...</h2>;
   if (!userData) return <h2 style={{ padding: "2rem" }}>Bro, failed to load profile 😢 Try logging in first.</h2>;
