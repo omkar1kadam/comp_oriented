@@ -7,6 +7,8 @@ import Profile from './components/Profile';
 import SensorDetail from './pages/SensorDetail';
 import PlanteraHome from './components/PlanteraHome';
 // import Navbar from './components/Navbar';
+import PlaceOrder from './components/PlaceOrder';
+import About from "./components/About";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/sensors/:deviceId" element={<SensorDetail />} />
+        <Route path="/place_order" element={<PlaceOrder />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

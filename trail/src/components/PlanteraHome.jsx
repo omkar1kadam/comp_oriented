@@ -323,7 +323,7 @@ const PlanteraHome = () => {
             <br /><br />
             Let’s Cultivate the Future Together
           </p>
-          <Link to="/buy_kit" id="buyBtn">Buy Kits <FaShoppingCart /></Link>
+          <Link to="/place_order" id="buyBtn">Buy Kits <FaShoppingCart /></Link>
         </div>
         <div className="hero-image">
           <img src="/static/images/bg_free_img.png" alt="Graphics illustration" />

@@ -8,40 +8,52 @@ const Reading = require('../models/reading.model');
 const mongoose = require('mongoose');  // 🔥 Don't forget this if not globally imported
 
 // ✅ Register new sensor
-router.post('/register', authMiddleware.authUser, async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
-    const { deviceId, location } = req.body;
+    const { deviceId, location, email } = req.body;
 
-    if (!deviceId || !location?.lat || !location?.lng) {
-      return res.status(400).json({ error: 'Bro, send deviceId and full location (lat/lng)' });
+    console.log("📥 Incoming body:", req.body);
+
+    if (!deviceId || !location?.lat || !location?.lng || !email) {
+      return res.status(400).json({ error: 'Send deviceId, lat/lng, and email bro' });
+    }
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      console.log("❌ No user with email:", email);
+      return res.status(404).json({ error: 'User not found bro' });
     }
 
     const existing = await Sensor.findOne({ deviceId });
     if (existing) {
-      return res.status(409).json({ error: 'Sensor with this deviceId already exists bro' });
+      return res.status(409).json({ error: 'Sensor already exists bro' });
     }
 
     const newSensor = new Sensor({
       deviceId,
-      ownerId: req.user._id,
+      ownerId: user._id,
       location
     });
 
     await newSensor.save();
 
-    // 🔗 Link this sensor to the user
     await userModel.findByIdAndUpdate(
-      req.user._id,
+      user._id,
       { $push: { devices: newSensor._id } },
       { new: true }
     );
 
+    console.log("✅ Sensor registered:", newSensor);
+
     res.status(201).json({ message: 'Sensor registered successfully', sensor: newSensor });
   } catch (err) {
-    console.error('Error registering sensor:', err);
-    res.status(500).json({ error: 'Bro, something went wrong on the server' });
+    console.error('❌ Error registering sensor:', err);
+    res.status(500).json({ error: 'Server error, try again later bro' });
   }
 });
+
+
+
 
 // ✅ Fetch all sensors for a user
 router.get('/all_sensors', authMiddleware.authUser, async (req, res) => {

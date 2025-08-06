@@ -50,6 +50,7 @@ const Profile = () => {
           font-size: 24px;
           font-weight: bold;
           color: #333;
+          text-decoration: none;
         }
 
         .logo span {
@@ -140,11 +141,10 @@ const Profile = () => {
       `}</style>
 
       <header>
-        <div className="logo"><span>P</span>lantera</div>
+        <a href="/" className="logo"><span>P</span>lantera</a>
         <nav>
           <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Buy Kits</a></li>
+            <li><a href="/place_order">Buy Kits</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
           </ul>

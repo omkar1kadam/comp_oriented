@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const SensorDetail = () => {
   const { deviceId } = useParams();
@@ -239,8 +240,8 @@ const SensorDetail = () => {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
-
-      {/* Header */}
+      <Navbar />
+      {/* Header
       <header>
         <div className="logo"><span>P</span>lantera</div>
         <nav>
@@ -251,7 +252,7 @@ const SensorDetail = () => {
             <li><a href="#">Contact</a></li>
           </ul>
         </nav>
-      </header>
+      </header> */}
 
       {/* Sensor Data */}
       <div className="container">
@@ -309,7 +310,7 @@ const SensorDetail = () => {
           <div className="footer-col">
             <h4>Insights</h4>
             <ul>
-              <li><a href="#">Eco Innovation</a></li>
+              <li><a href="#0">Eco Innovation</a></li>
               <li><a href="#">Token Impact</a></li>
               <li><a href="#">Smart Cities</a></li>
               <li><a href="#">Sustainable Future</a></li>
