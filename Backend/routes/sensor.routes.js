@@ -99,9 +99,30 @@ router.get('/:deviceId/data', async (req, res) => {
     const collectionName = `sensor_data_${req.params.deviceId}`;
     const SensorData = mongoose.connection.collection(collectionName);
 
+    const { fromDate, toDate } = req.query;
+
+    const query = {};
+
+    if (fromDate && toDate) {
+      // ✅ Custom range if both provided
+      query.timestamp = {
+        $gte: new Date(fromDate),
+        $lte: new Date(toDate)
+      };
+    } else {
+      // ✅ Default: only today's data
+      const today = new Date();
+      const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+      query.timestamp = {
+        $gte: startOfDay,
+        $lte: endOfDay
+      };
+    }
+
     const readings = await SensorData
-      .find({})
-      .sort({ timestamp: -1 })  // ✅ This is the fix that solved your UI issue
+      .find(query)
+      .sort({ timestamp: -1 })
       .toArray();
 
     res.json({ readings });
@@ -110,5 +131,6 @@ router.get('/:deviceId/data', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch sensor data' });
   }
 });
+
 
 module.exports = router;
