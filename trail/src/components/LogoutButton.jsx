@@ -7,7 +7,7 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get('https://comp-oriented.onrender.com/users/logout', {
+      await axios.get('http://localhost:5000/users/logout', {
         withCredentials: true, // must send cookies
       });
       console.log("Logged out successfully bro");

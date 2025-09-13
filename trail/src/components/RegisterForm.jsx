@@ -8,6 +8,7 @@ const RegisterForm = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [walletAddress, setWalletAddress] = useState(""); // 🆕 wallet address
   const [errors, setErrors] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -19,17 +20,15 @@ const RegisterForm = () => {
     setSuccessMessage("");
 
     try {
-      const response = await axios.post(
-        "https://comp-oriented.onrender.com/users/register",
-        {
-          email,
-          password,
-          fullName: {
-            firstName,
-            lastName,
-          },
-        }
-      );
+      const response = await axios.post("http://localhost:5000/users/register", {
+        email,
+        password,
+        fullName: {
+          firstName,
+          lastName,
+        },
+        walletAddress, // 🆕 sending wallet to backend
+      });
 
       setSuccessMessage("Registration successful!");
       console.log("User registered:", response.data);
@@ -40,6 +39,7 @@ const RegisterForm = () => {
       setLastName("");
       setEmail("");
       setPassword("");
+      setWalletAddress(""); // reset wallet
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         setErrors(error.response.data.errors.map((err) => err.msg));
@@ -110,6 +110,18 @@ const RegisterForm = () => {
                 placeholder="Password (min 6 chars)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                style={styles.input}
+                required
+              />
+            </div>
+
+            {/* 🆕 Wallet Address input */}
+            <div style={styles.inputGroup}>
+              <input
+                type="text"
+                placeholder="Wallet Address"
+                value={walletAddress}
+                onChange={(e) => setWalletAddress(e.target.value)}
                 style={styles.input}
                 required
               />

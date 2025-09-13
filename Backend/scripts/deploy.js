@@ -1,15 +1,12 @@
-import { ethers } from "hardhat";
+const hre = require("hardhat");
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
-  console.log("Deploying with account:", deployer.address);
+  const SensorToken = await hre.ethers.getContractFactory("SensorToken");
+  const token = await SensorToken.deploy(); // deploy returns a Contract instance
+  console.log("Deploying...");
 
-  // Contract name must match the one in Counter.sol
-  const Counter = await ethers.getContractFactory("Counter");
-  const counter = await Counter.deploy();
-
-  await counter.deployed();
-  console.log("Counter deployed to:", counter.address);
+  await token.waitForDeployment(); // <-- new syntax in Hardhat 2.26+
+  console.log("SensorToken deployed to:", token.target); // token.target is the contract address
 }
 
 main().catch((error) => {

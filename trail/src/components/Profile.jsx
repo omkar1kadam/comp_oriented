@@ -5,26 +5,47 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [tokenBalance, setTokenBalance] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-  axios
-    .get("https://comp-oriented.onrender.com/users/profile", {
-      withCredentials: true,
-    })
-    .then((res) => {
-      setUserData(res.data);
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.error("Bro error fetching profile:", err);
-      setLoading(false);
-    });
-}, []);
+    axios
+      .get("http://localhost:5000/users/profile", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUserData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Bro error fetching profile:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+  if (userData?.walletAddress) {
+    axios
+      .get(`http://localhost:5000/sensors/balance/${userData.walletAddress}`)
+      .then((res) => {
+        setTokenBalance(res.data.balance);
+      })
+      .catch((err) => {
+        console.error("Bro error fetching token balance:", err);
+      });
+  }
+}, [userData]);
 
 
-  if (loading) return <h2 style={{ padding: "2rem" }}>Loading your profile, bro...</h2>;
-  if (!userData) return <h2 style={{ padding: "2rem" }}>Bro, failed to load profile 😢 Try logging in first.</h2>;
+  if (loading)
+    return <h2 style={{ padding: "2rem" }}>Loading your profile, bro...</h2>;
+  if (!userData)
+    return (
+      <h2 style={{ padding: "2rem" }}>
+        Bro, failed to load profile 😢 Try logging in first.
+      </h2>
+    );
 
   return (
     <div>
@@ -140,11 +161,53 @@ const Profile = () => {
           .sensor-cards {
             flex-direction: column;
           }
+            .info-cards {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.info-card {
+  flex: 1 1 250px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.info-card i {
+  font-size: 30px;
+  color: #fe5732;
+  margin-bottom: 10px;
+}
+
+.info-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.info-card p {
+  font-size: 15px;
+  color: #555;
+  word-break: break-all;
+}
+
         }
       `}</style>
 
       <header>
-        <a href="/" className="logo"><span>P</span>lantera</a>
+        <a href="/" className="logo">
+          <span>P</span>lantera
+        </a>
         <nav>
           <ul>
             <li><a href="/place_order">Buy Kits</a></li>
@@ -155,13 +218,43 @@ const Profile = () => {
       </header>
 
       <div className="profile-wrapper">
-        <h1>Welcome <span>{userData.name}</span> 👋</h1>
-        <p>Email: {userData.email}</p>
+        <h1>
+          Welcome <span>{userData.name}</span> 👋
+        </h1>
+        <div className="info-cards">
+  <div className="info-card">
+    <i className="fas fa-envelope"></i>
+    <h3>Email</h3>
+    <p>{userData.email}</p>
+  </div>
+
+  <div className="info-card">
+    <i className="fas fa-wallet"></i>
+    <h3>Wallet</h3>
+    <p>
+      {userData.walletAddress
+        ? userData.walletAddress
+        : "Bro no wallet connected 😢"}
+    </p>
+  </div>
+
+  <div className="info-card">
+    <i className="fas fa-coins"></i>
+    <h3>Balance</h3>
+    <p>
+      {tokenBalance !== null ? `${tokenBalance} AQI Tokens` : "Fetching..."}
+    </p>
+  </div>
+</div>
+
+
 
         <h2 style={{ marginTop: "30px", color: "#333" }}>Your Sensors:</h2>
 
         {userData.devices.length === 0 ? (
-          <p style={{ color: "#f00", marginTop: "10px" }}>No sensors registered yet 😶</p>
+          <p style={{ color: "#f00", marginTop: "10px" }}>
+            Bro No sensors registered yet 😶
+          </p>
         ) : (
           <div className="sensor-cards">
             {userData.devices.map((sensor) => (
@@ -170,10 +263,28 @@ const Profile = () => {
                 className="card"
                 onClick={() => navigate(`/sensors/${sensor.deviceId}`)}
               >
-                <p><i className="fas fa-microchip" style={{ color: "green" }}></i> <strong>Device ID:</strong> {sensor.deviceId}</p>
-                <p><i className="fas fa-map-marker-alt"></i> <strong>Location:</strong> {sensor.location.lat}, {sensor.location.lng}</p>
-                <p><i className="fas fa-calendar-plus" style={{ color: "#4385f5" }}></i> <strong>Registered:</strong> {new Date(sensor.registered_on).toLocaleString()}</p>
-                <p><i className="fas fa-clock" style={{ color: "gray" }}></i> <strong>Last Active:</strong> {new Date(sensor.lastActive).toLocaleString()}</p>
+                <p>
+                  <i className="fas fa-microchip" style={{ color: "green" }}></i>{" "}
+                  <strong>Device ID:</strong> {sensor.deviceId}
+                </p>
+                <p>
+                  <i className="fas fa-map-marker-alt"></i>{" "}
+                  <strong>Location:</strong> {sensor.location.lat},{" "}
+                  {sensor.location.lng}
+                </p>
+                <p>
+                  <i
+                    className="fas fa-calendar-plus"
+                    style={{ color: "#4385f5" }}
+                  ></i>{" "}
+                  <strong>Registered:</strong>{" "}
+                  {new Date(sensor.registered_on).toLocaleString()}
+                </p>
+                <p>
+                  <i className="fas fa-clock" style={{ color: "gray" }}></i>{" "}
+                  <strong>Last Active:</strong>{" "}
+                  {new Date(sensor.lastActive).toLocaleString()}
+                </p>
               </div>
             ))}
           </div>

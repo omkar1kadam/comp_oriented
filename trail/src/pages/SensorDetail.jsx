@@ -9,19 +9,29 @@ const SensorDetail = () => {
   const [toDate, setToDate] = useState("");
 
   const fetchReadings = async () => {
-    try {
-      let url = `https://comp-oriented.onrender.com/sensors/${deviceId}/data`;
-      if (fromDate && toDate) {
-        url += `?fromDate=${fromDate}&toDate=${toDate}`;
-      }
-      const res = await fetch(url);
-      const data = await res.json();
-      console.log("📦 Filtered response:", data);
-      setReadings(data.readings);
-    } catch (error) {
-      console.error("❌ Failed to load readings:", error);
+  try {
+    let url = `http://localhost:5000/sensors/${deviceId}/data`;
+    if (fromDate && toDate) {
+      url += `?fromDate=${fromDate}&toDate=${toDate}`;
     }
-  };
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log("📦 Raw response:", data);
+
+    if (Array.isArray(data)) {
+  setReadings(data);
+} else if (Array.isArray(data.readings)) {
+  setReadings(data.readings); // ✅ pick readings array
+} else {
+  setReadings([]);
+}
+
+  } catch (error) {
+    console.error("❌ Failed to load readings:", error);
+  }
+};
+
+
 
   useEffect(() => {
     fetchReadings();
@@ -275,31 +285,48 @@ const SensorDetail = () => {
         </div>
 
         {readings.length === 0 ? (
-          <p style={{ marginTop: "15px", fontSize: "16px" }}>
-            No readings available bro 🥲
-          </p>
-        ) : (
-          readings.map((reading, index) => (
-            <div className="reading-card" key={index}>
-              <p>
-                <i className="fas fa-temperature-high"></i>{" "}
-                <strong>Temperature:</strong> {reading.data.temperature} °C
-              </p>
-              <p>
-                <i className="fas fa-tint"></i> <strong>Humidity:</strong>{" "}
-                {reading.data.humidity} %
-              </p>
-              <p>
-                <i className="fas fa-wind"></i> <strong>MQ135 Raw:</strong>{" "}
-                {reading.data.mq135_raw}
-              </p>
-              <p>
-                <i className="fas fa-clock"></i> <strong>Timestamp:</strong>{" "}
-                {new Date(reading.timestamp).toLocaleString()}
-              </p>
-            </div>
-          ))
-        )}
+  <p style={{ marginTop: "15px", fontSize: "16px" }}>
+    No readings available bro 🥲
+  </p>
+) : (
+  readings.map((reading, index) => (
+    <div className="reading-card" key={index}>
+      <p>
+        <i className="fas fa-temperature-high"></i>{" "}
+        <strong>Temperature:</strong>{" "}
+        {reading?.temperature ?? "N/A"} °C
+      </p>
+      <p>
+        <i className="fas fa-tint"></i> <strong>Humidity:</strong>{" "}
+        {reading?.humidity ?? "N/A"} %
+      </p>
+      <p>
+        <i className="fas fa-wind"></i> <strong>MQ135:</strong>{" "}
+        {reading?.mq135 ?? "N/A"}
+      </p>
+      <p>
+        <i className="fas fa-leaf"></i> <strong>Soil Moisture:</strong>{" "}
+        {reading?.soilMoisture ?? "N/A"} %
+      </p>
+      <p>
+        <i className="fas fa-cloud-rain"></i> <strong>Rain:</strong>{" "}
+        {reading?.rain ? "Yes" : "No"}
+      </p>
+      <p>
+        <i className="fas fa-sun"></i> <strong>UV Index:</strong>{" "}
+        {reading?.uvIndex ?? "N/A"}
+      </p>
+      <p>
+        <i className="fas fa-clock"></i> <strong>Timestamp:</strong>{" "}
+        {reading?.timestamp
+          ? new Date(reading.timestamp).toLocaleString()
+          : "N/A"}
+      </p>
+
+    </div>
+  ))
+)}
+
       </div>
 
       {/* Footer */}
