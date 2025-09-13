@@ -9,6 +9,7 @@ const connectToDB = require('./db/db');
 const userRoutes = require('./routes/user.routes');
 const sensorRoutes = require('./routes/sensor.routes');
 const dataRoutes = require('./routes/data.routes');
+const companyRoutes = require('./routes/company.routes');
 
 
 
@@ -30,6 +31,7 @@ app.get('/',(req, res) => {
 app.use('/users', userRoutes);
 app.use('/sensors', sensorRoutes);
 app.use('/data', dataRoutes);
+app.use('/company', companyRoutes);
 
 
 module.exports = app;
