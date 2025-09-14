@@ -2,349 +2,112 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sensor: ESP32_0012</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            background-color: #fffef6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .logo span {
-            color: #ff6600;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 25px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #ff6600;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        h2 {
-            color: #2e7d32;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            margin-top: 10px;
-            color: #444;
-        }
-
-        .reading-card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 20px 0;
-            transition: 0.3s;
-        }
-
-        .reading-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .reading-card p {
-            margin: 8px 0;
-            font-size: 16px;
-        }
-
-        .reading-card i {
-            margin-right: 8px;
-            color: #fe5732;
-        }
-
-        footer {
-            margin-top: auto;
-            background: #0b1d23;
-            color: #ccc;
-            padding: 40px 30px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 10px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantera</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Customize Tailwind colors
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#ff6600', // replaces green
+                        bgcustom: '#FEFFF7' // page background
+                    }
+                }
             }
         }
-
-        footer {
-            background: #0b1d23;
-            color: #eee;
-            padding: 60px 30px 30px;
-        }
-
-        .footer-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .footer-col {
-            flex: 1 1 220px;
-        }
-
-        .footer-logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .footer-logo span {
-            color: #ff6600;
-        }
-
-        .footer-col h4 {
-            color: #fff;
-            margin-bottom: 1rem;
-        }
-
-        .footer-col ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 8px;
-        }
-
-        .footer-col ul li a {
-            text-decoration: none;
-            color: #ff9366;
-            transition: 0.3s;
-        }
-
-        .footer-col ul li a:hover {
-            color: #fff;
-        }
-
-        .footer-col p {
-            margin-bottom: 1rem;
-            color: #ccc;
-            line-height: 1.6;
-        }
-
-        .social-icons {
-            margin-top: 15px;
-        }
-
-        .social-icons a {
-            color: white;
-            margin-right: 10px;
-            font-size: 18px;
-            display: inline-block;
-            transition: transform 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: #ff6600;
-            transform: scale(1.2);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 40px;
-            padding-top: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            color: #ccc;
-            font-size: 14px;
-            max-width: 1200px;
-            margin: 40px auto 0;
-        }
-
-        .footer-bottom a {
-            color: #00c4b3;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .footer-container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
-            }
-        }
-    </style>
+    </script>
 </head>
 
-<body>
-
+<body class="bg-bgcustom min-h-screen flex flex-col">
     <!-- Header -->
-    <header>
-        <div class="logo"><span>P</span>lantera</div>
-        <nav>
-            <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Buy Kits</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
+    <header class="sticky top-0 z-50 w-full bg-bgcustom/80 backdrop-blur border-b">
+        <div class="container mx-auto flex justify-between items-center h-16 px-4">
+            <a href="/" class="flex items-center gap-2">
+                <img src="/new-logo.png" alt="Plantera" class="h-8 w-auto">
+                <span class="text-lg font-bold tracking-tight">Plantera</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-4 text-gray-700 font-medium">
+                <a href="#how-it-works" class="hover:text-brand transition">How it works</a>
+                <a href="#monitoring" class="hover:text-brand transition">Monitoring</a>
+                <a href="/signin" class="hover:text-brand transition">Sign in</a>
+            </nav>
+            <div class="md:hidden">
+                <button aria-label="Toggle menu"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-bgcustom hover:bg-[#FFECE0]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                        <path fill-rule="evenodd"
+                            d="M3.75 5.25a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75zm0 6a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75zm0 6a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <!-- Sensor Data -->
-    <div class="container">
-        <h2>📟 Sensor: <span style="color:#fe5732">ESP32_001</span></h2>
-        <h3>📊 Readings (latest first):</h3>
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-16 grid md:grid-cols-2 gap-10 items-center">
+        <!-- Left Section -->
+        <div>
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Sign in to Plantera</h1>
+            <p class="mt-3 text-gray-600 max-w-prose">
+                Your Plantera hub — monitor sensor data, track your contributions, and grow your orange impact.
+            </p>
 
-        <!-- Reading Card 1 -->
-        <div class="reading-card">
-            <p><i class="fas fa-temperature-high"></i> <strong>Temperature:</strong> 28.6 °C</p>
-            <p><i class="fas fa-tint"></i> <strong>Humidity:</strong> 77%</p>
-            <p><i class="fas fa-wind"></i> <strong>MQ135 Raw:</strong> 1472</p>
-            <p><i class="fas fa-clock"></i> <strong>Timestamp:</strong> 27/7/2025, 8:04:58 pm</p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-2">
+                <button
+                    class="rounded-lg border px-4 py-3 text-left hover:bg-[#FFECE0] transition">
+                    <div class="font-medium">Company / Organization</div>
+                    <div class="text-sm text-gray-500">Tap to get real-time environmental data</div>
+                </button>
+                <button
+                    class="rounded-lg border border-brand bg-[#FFF2E6] px-4 py-3 text-left hover:bg-[#FFE0CC] transition">
+                    <div class="font-medium">Customer</div>
+                    <div class="text-sm text-gray-500">Click to buy kits and get access to data!</div>
+                </button>
+            </div>
         </div>
 
-        <!-- Reading Card 2 -->
-        <div class="reading-card">
-            <p><i class="fas fa-temperature-high"></i> <strong>Temperature:</strong> 28.5 °C</p>
-            <p><i class="fas fa-tint"></i> <strong>Humidity:</strong> 77.5%</p>
-            <p><i class="fas fa-wind"></i> <strong>MQ135 Raw:</strong> 1462</p>
-            <p><i class="fas fa-clock"></i> <strong>Timestamp:</strong> 27/7/2025, 8:04:55 pm</p>
-        </div>
+        <!-- Right Section (Form) -->
+        <form class="bg-white/70 backdrop-blur rounded-xl border p-6 shadow-md">
+            <label class="block mb-2 font-medium" for="email">Email</label>
+            <input id="email" type="email" required
+                class="w-full mb-4 rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-brand">
+            
+            <label class="block mb-2 font-medium" for="password">Password</label>
+            <input id="password" type="password" required
+                class="w-full mb-6 rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-brand">
 
-        <!-- Reading Card 3 -->
-        <div class="reading-card">
-            <p><i class="fas fa-temperature-high"></i> <strong>Temperature:</strong> 28.5 °C</p>
-            <p><i class="fas fa-tint"></i> <strong>Humidity:</strong> 77.5%</p>
-            <p><i class="fas fa-wind"></i> <strong>MQ135 Raw:</strong> 1467</p>
-            <p><i class="fas fa-clock"></i> <strong>Timestamp:</strong> 27/7/2025, 8:04:54 pm</p>
-        </div>
+            <button type="submit"
+                class="w-full bg-brand text-white py-2 rounded-md font-medium hover:bg-[#e65a00] transition">
+                Continue as User
+            </button>
 
-        <!-- Reading Card 4 -->
-        <div class="reading-card">
-            <p><i class="fas fa-temperature-high"></i> <strong>Temperature:</strong> 28.5 °C</p>
-            <p><i class="fas fa-tint"></i> <strong>Humidity:</strong> 77.6%</p>
-            <p><i class="fas fa-wind"></i> <strong>MQ135 Raw:</strong> 1456</p>
-            <p><i class="fas fa-clock"></i> <strong>Timestamp:</strong> 27/7/2025, 8:04:53 pm</p>
-        </div>
-    </div>
+            <div class="mt-6 text-center text-sm text-gray-500">
+                By continuing, you agree to our 
+                <a href="#" class="underline text-brand">Terms</a> and 
+                <a href="#" class="underline text-brand">Privacy Policy</a>.
+            </div>
+            <div class="mt-4 text-center text-sm">
+                <a href="/" class="text-brand hover:underline">Back to home</a>
+            </div>
+        </form>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-col about">
-                <h2 class="footer-logo"><span>P</span>lantera</h2>
-                <p>Plantera empowers green-tech innovation through real-time environmental tracking and tokenized
-                    incentives.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+    <footer class="border-t bg-bgcustom py-8">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4">
+            <p class="text-gray-500 text-sm text-center md:text-left">© 2025 Plantera DePin. All rights reserved.</p>
+            <div class="flex gap-6 text-sm text-gray-500">
+                <a href="#how-it-works" class="hover:text-brand transition">How it works</a>
+                <a href="#monitoring" class="hover:text-brand transition">Monitoring</a>
+                <a href="#dePin-flow" class="hover:text-brand transition">DePin flow</a>
             </div>
-
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Buy Kits</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Technologies</h4>
-                <ul>
-                    <li><a href="#">Air Quality Sensors</a></li>
-                    <li><a href="#">Blockchain Tracking</a></li>
-                    <li><a href="#">Token Reward System</a></li>
-                    <li><a href="#">Sustainability Insights</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Insights</h4>
-                <ul>
-                    <li><a href="#">Eco Innovation</a></li>
-                    <li><a href="#">Token Impact</a></li>
-                    <li><a href="#">Smart Cities</a></li>
-                    <li><a href="#">Sustainable Future</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>Copyright © 2025 Plantera. All Rights Reserved.</p>
         </div>
     </footer>
-
 </body>
 
 </html>

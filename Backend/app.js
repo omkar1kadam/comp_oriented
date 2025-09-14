@@ -1,15 +1,25 @@
-require('dotenv').config(); // 💥 Load env variables first
+// ----------------------
+// Load environment variables first
+// ----------------------
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectToDB = require('./db/db');
+const http = require('http');
 
-// Routes
+// ----------------------
+// Import routes
+// ----------------------
 const userRoutes = require('./routes/user.routes');
 const sensorRoutes = require('./routes/sensor.routes');
 const dataRoutes = require('./routes/data.routes');
 const companyRoutes = require('./routes/company.routes');
 
+// ----------------------
+// Initialize Express
+// ----------------------
 const app = express();
 
 // ----------------------
@@ -21,10 +31,9 @@ connectToDB();
 // Middleware
 // ----------------------
 app.use(cors({
-  origin: 'http://localhost:3000', // your React frontend
-  credentials: true // allow cookies
+  origin: 'http://localhost:3000', // change to your frontend URL in prod
+  credentials: true
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -37,7 +46,7 @@ app.get('/', (req, res) => {
 });
 
 // ----------------------
-// Routes
+// API Routes
 // ----------------------
 app.use('/users', userRoutes);
 app.use('/sensors', sensorRoutes);
@@ -55,9 +64,15 @@ app.use((err, req, res, next) => {
 // ----------------------
 // Start server
 // ----------------------
+// Use process.env.PORT for Render, fallback to 5000 locally
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+
+// Optional: Use HTTP server if you later need socket support
+const server = http.createServer(app);
+
+server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
 
+// Export app for testing or future use
 module.exports = app;
