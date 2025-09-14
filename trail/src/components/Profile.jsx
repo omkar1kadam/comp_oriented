@@ -27,7 +27,7 @@ const Profile = () => {
   useEffect(() => {
   if (userData?.walletAddress) {
     axios
-      .get(`http://localhost:5000/sensors/balance/${userData.walletAddress}`)
+      .get(`https://comp-oriented.onrender.com/sensors/balance/${userData.walletAddress}`)
       .then((res) => {
         setTokenBalance(res.data.balance);
       })
