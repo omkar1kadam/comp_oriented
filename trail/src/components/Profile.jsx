@@ -242,7 +242,7 @@ const Profile = () => {
     <i className="fas fa-coins"></i>
     <h3>Balance</h3>
     <p>
-      {tokenBalance !== null ? `${tokenBalance} AQI Tokens` : "Fetching..."}
+      {tokenBalance !== null ? `${tokenBalance} Tokens` : "Fetching..."}
     </p>
   </div>
 </div>

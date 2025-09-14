@@ -51,7 +51,9 @@ app.get('/', (req, res) => {
 app.use('/users', userRoutes);
 app.use('/sensors', sensorRoutes);
 app.use('/data', dataRoutes);
-app.use('/company', companyRoutes);
+
+app.use("/api/customers", require("./routes/customer.routes"));
+app.use("/api/companies", require("./routes/company.routes"));
 
 // ----------------------
 // Global Error Handler

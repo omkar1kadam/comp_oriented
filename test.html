@@ -58,17 +58,18 @@
             </p>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2">
-                <button
+                <button type="button" id="companyBtn"
                     class="rounded-lg border px-4 py-3 text-left hover:bg-[#FFECE0] transition">
                     <div class="font-medium">Company / Organization</div>
                     <div class="text-sm text-gray-500">Tap to get real-time environmental data</div>
                 </button>
-                <button
-                    class="rounded-lg border border-brand bg-[#FFF2E6] px-4 py-3 text-left hover:bg-[#FFE0CC] transition">
+                <button type="button" id="customerBtn"
+                    class="rounded-lg border px-4 py-3 text-left hover:bg-[#FFECE0] transition">
                     <div class="font-medium">Customer</div>
                     <div class="text-sm text-gray-500">Click to buy kits and get access to data!</div>
                 </button>
             </div>
+
         </div>
 
         <!-- Right Section (Form) -->
@@ -76,19 +77,20 @@
             <label class="block mb-2 font-medium" for="email">Email</label>
             <input id="email" type="email" required
                 class="w-full mb-4 rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-brand">
-            
+
             <label class="block mb-2 font-medium" for="password">Password</label>
             <input id="password" type="password" required
                 class="w-full mb-6 rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-brand">
 
-            <button type="submit"
-                class="w-full bg-brand text-white py-2 rounded-md font-medium hover:bg-[#e65a00] transition">
-                Continue as User
-            </button>
+            <button id="submitBtn" type="submit"
+    class="w-full bg-brand text-white py-2 rounded-md font-medium hover:bg-[#e65a00] transition">
+    Login as Customer
+</button>
+
 
             <div class="mt-6 text-center text-sm text-gray-500">
-                By continuing, you agree to our 
-                <a href="#" class="underline text-brand">Terms</a> and 
+                By continuing, you agree to our
+                <a href="#" class="underline text-brand">Terms</a> and
                 <a href="#" class="underline text-brand">Privacy Policy</a>.
             </div>
             <div class="mt-4 text-center text-sm">
@@ -109,5 +111,38 @@
         </div>
     </footer>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const companyBtn = document.getElementById("companyBtn");
+        const customerBtn = document.getElementById("customerBtn");
+        const submitBtn = document.getElementById("submitBtn");
+
+        let selected = "customer"; // default
+
+        function updateSelection(type) {
+            selected = type;
+
+            // Reset both buttons
+            companyBtn.classList.remove("border-brand", "bg-[#FFF2E6]");
+            customerBtn.classList.remove("border-brand", "bg-[#FFF2E6]");
+
+            // Apply active style
+            if (type === "company") {
+                companyBtn.classList.add("border-brand", "bg-[#FFF2E6]");
+                submitBtn.textContent = "Login as Company";
+            } else {
+                customerBtn.classList.add("border-brand", "bg-[#FFF2E6]");
+                submitBtn.textContent = "Login as Customer";
+            }
+        }
+
+        companyBtn.addEventListener("click", () => updateSelection("company"));
+        customerBtn.addEventListener("click", () => updateSelection("customer"));
+
+        // init default
+        updateSelection(selected);
+    });
+</script>
+
 
 </html>

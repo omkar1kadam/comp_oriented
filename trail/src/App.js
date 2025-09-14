@@ -9,6 +9,11 @@ import PlanteraHome from './components/PlanteraHome';
 // import Navbar from './components/Navbar';
 import PlaceOrder from './components/PlaceOrder';
 import About from "./components/About";
+import CustomerDashboard from "./components/CustomerDashboard";
+import CompanyDashboard from "./components/CompanyDashboard";
+import CustomerSignIn from "./components/CustomerSignIn";
+import CompanySignIn from "./components/CompanySignIn";
+import "./index.css";  // 👈 this is important
 
 function App() {
   return (
@@ -21,6 +26,10 @@ function App() {
         <Route path="/sensors/:deviceId" element={<SensorDetail />} />
         <Route path="/place_order" element={<PlaceOrder />} />
         <Route path="/about" element={<About />} />
+        <Route path="/customer-login" element={<CustomerSignIn />} />
+        <Route path="/company-login" element={<CompanySignIn />} />
+        <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+        <Route path="/company/dashboard" element={<CompanyDashboard />} />
       </Routes>
     </Router>
   );

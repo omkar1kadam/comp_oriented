@@ -313,22 +313,44 @@ const PlanteraHome = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-text">
-          <p className="hero-sub">BE PART OF THE AIR QUALITY REVOLUTION — LET’S CHANGE THE FUTURE TOGETHER</p>
-          <h1>Grow with Plantera <br /> in the Digital Ecosystem</h1>
-          <p>
-            We craft strategies that help your green-tech brand flourish and lead in the digital world.
-            Earn exclusive Plantera tokens as you participate and grow with us.
-            <br /><br />
-            Let’s Cultivate the Future Together
-          </p>
-          <Link to="/place_order" id="buyBtn">Buy Kits <FaShoppingCart /></Link>
-        </div>
-        <div className="hero-image">
-          <img src="/static/images/bg_free_img.png" alt="Graphics illustration" />
-        </div>
-      </section>
+<section className="hero">
+  <div className="hero-text">
+    <p className="hero-sub">
+      BE PART OF THE AIR QUALITY REVOLUTION — LET’S CHANGE THE FUTURE TOGETHER
+    </p>
+    <h1>
+      Grow with Plantera <br /> in the Digital Ecosystem
+    </h1>
+    <p>
+      We craft strategies that help your green-tech brand flourish and lead in
+      the digital world. Earn exclusive Plantera tokens as you participate and
+      grow with us.
+      <br />
+      <br />
+      Let’s Cultivate the Future Together
+    </p>
+
+    {/* Buy Kits button */}
+    <Link to="/place_order" id="buyBtn">
+      Buy Kits <FaShoppingCart />
+    </Link>
+
+    <div className="login-buttons" style={{ marginTop: "20px", display: "flex", gap: "15px" }}>
+  <Link to="/customer-login" className="btn">
+    Login as Customer
+  </Link>
+  <Link to="/company-login" className="btn">
+    Login as Company
+  </Link>
+</div>
+
+  </div>
+
+  <div className="hero-image">
+    <img src="/static/images/bg_free_img.png" alt="Graphics illustration" />
+  </div>
+</section>
+
 
       {/* Feature Section */}
       <section className="feature-section">
