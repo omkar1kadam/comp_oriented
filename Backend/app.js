@@ -31,7 +31,7 @@ connectToDB();
 // Middleware
 // ----------------------
 app.use(cors({
-  origin: 'http://localhost:3000', // change to your frontend URL in prod
+  origin: 'https://plantera-omkar.vercel.app', // change to your frontend URL in prod
   credentials: true
 }));
 app.use(express.json());

@@ -11,7 +11,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/users/profile", {
+      .get("https://comp-oriented.onrender.com/users/profile", {
         withCredentials: true,
       })
       .then((res) => {

@@ -10,7 +10,7 @@ const SensorDetail = () => {
 
   const fetchReadings = async () => {
   try {
-    let url = `http://localhost:5000/sensors/${deviceId}/data`;
+    let url = `https://comp-oriented.onrender.com/sensors/${deviceId}/data`;
     if (fromDate && toDate) {
       url += `?fromDate=${fromDate}&toDate=${toDate}`;
     }

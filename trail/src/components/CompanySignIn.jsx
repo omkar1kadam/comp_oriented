@@ -20,7 +20,7 @@ const CompanySignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:5000/api/companies/login";
+      const url = "https://comp-oriented.onrender.com/api/companies/login";
       const res = await axios.post(url, formData);
 
       console.log("✅ Company Login successful:", res.data);

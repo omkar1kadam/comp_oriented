@@ -21,7 +21,7 @@ const PlaceOrder = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/sensors/register", {
+      const res = await fetch("https://comp-oriented.onrender.com/sensors/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

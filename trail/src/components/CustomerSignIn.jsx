@@ -20,7 +20,7 @@ const CustomerSignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:5000/api/customers/login";
+      const url = "https://comp-oriented.onrender.com/api/customers/login";
       const res = await axios.post(url, formData);
 
       console.log("✅ Customer Login successful:", res.data);
