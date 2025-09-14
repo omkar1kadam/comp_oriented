@@ -4,7 +4,6 @@ const Sensor = require('../models/sensor.model');
 const authMiddleware = require('../middlewares/auth.middleware');
 const sensorModel = require('../models/sensor.model');
 const userModel = require('../models/user.model');
-const Reading = require('../models/reading.model');
 const mongoose = require('mongoose');  
 const { rewardSensor } = require('../reward'); // <-- add this
 const { ethers } = require("ethers");
